@@ -1,0 +1,25 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+
+name: train_logistic
+display_name: Train Logistic Regression model
+type: command
+
+inputs:
+  X_train:
+    type: uri_file
+  y_train:
+    type: uri_file
+
+outputs:
+  logistic_model:
+    type: uri_file
+
+code: ./train_logistic_src
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:1
+command: >-
+  python train_logistic.py 
+  --X_train ${{inputs.X_train}}
+  --y_train ${{inputs.y_train}}
+  --logistic_model ${{outputs.logistic_model}}
+
+# --X_train input/X_train.pkl --y_train input/y_train.pkl --logistic_model output/logistic_model.pkl

@@ -1,0 +1,35 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+
+name: split
+display_name: Split Datset
+type: command
+
+inputs:
+  dataset: 
+    type: uri_file
+  test_size:
+    type: number
+    default: 0.2
+
+outputs:
+  X_train:
+    type: uri_file
+  X_test:
+    type: uri_file
+  y_train:
+    type: uri_file
+  y_test:
+    type: uri_file
+
+code: ./split_src
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:1
+command: >-
+  python split.py 
+  --dataset ${{inputs.dataset}}
+  --test_size ${{inputs.test_size}}
+  --X_train ${{outputs.X_train}}
+  --X_test ${{outputs.X_test}}
+  --y_train ${{outputs.y_train}}
+  --y_test ${{outputs.y_test}}
+
+# --dataset input/water-potability-clean.csv --test_size 0.2 --X_train output/X_train.pkl --X_test output/X_test.pkl --y_train output/y_train.pkl --y_test output/y_test.pkl

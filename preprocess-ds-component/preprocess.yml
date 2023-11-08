@@ -1,0 +1,33 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+
+name: preprocessing
+display_name: Preprocessing Dataset
+type: command
+
+inputs:
+  dataset: 
+    type: uri_file
+  plot_style:
+    type: string
+    default: ticks
+    enum:
+        - "dark"
+        - "white"
+        - "ticks"
+
+outputs:
+  dataset_cleaned:
+    type: uri_file
+  pair_plot:
+    type: uri_file
+
+code: ./preprocess_src
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:1
+command: >-
+  python train.py 
+  --dataset ${{inputs.dataset}} 
+  --plot_style ${{inputs.plot_style}}   
+  --dataset_cleaned ${{outputs.dataset_cleaned}}
+  --pair_plot ${{outputs.pair_plot}}
+
+# python --dataset input/water_potability_ds.csv --plot_style ticks --dataset_cleaned output/water-potability-clean.csv --pair_plot output/pair_plot.png

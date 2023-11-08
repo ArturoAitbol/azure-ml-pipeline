@@ -1,0 +1,39 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+
+name: train_logistic
+display_name: Train Logistic Regression model
+type: command
+
+inputs:
+  X_train:
+    type: uri_file
+  y_train:
+    type: uri_file
+
+  criterion:
+    type: string
+    default: gini
+    enum:
+        - "entropy"
+        - "gini"
+        - "log_loss"
+  min_samples_split:
+    type: integer
+    default: 2
+  max_depth:
+    type: integer
+    default: 1
+
+outputs:
+  tree_model:
+    type: uri_file
+
+code: ./train_tree_src
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:1
+command: >-
+  python train_tree.py 
+  --X_train ${{inputs.X_train}}
+  --y_train ${{inputs.y_train}}
+  --tree_model ${{outputs.tree_model}}
+
+# --X_train input/X_train.pkl --y_train input/y_train.pkl --criterion entropy --min_samples_split 3 --max_depth 4 --tree_model output/tree_model.pkl

@@ -1,0 +1,5 @@
+### STS ###
+*.DS_Store
+
+### MQTT persistance ###
+/.ipynb_checkpoints/
