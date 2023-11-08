@@ -24,7 +24,7 @@ outputs:
 code: ./preprocess_src
 environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:1
 command: >-
-  python train.py 
+  python preprocess.py 
   --dataset ${{inputs.dataset}} 
   --plot_style ${{inputs.plot_style}}   
   --dataset_cleaned ${{outputs.dataset_cleaned}}

@@ -1,3 +1,11 @@
+import subprocess
+import sys
+
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+install("seaborn")
+
 import argparse
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -50,5 +58,5 @@ data.to_csv(args.dataset_cleaned)
 sns.set(style=args.plot_style)
 sns_plot = sns.pairplot(data, diag_kind='kde')
 plt.suptitle("Pair Plot of Columns")
-plt.show()
+# plt.show()
 sns_plot.savefig(args.pair_plot)
