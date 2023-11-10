@@ -18,8 +18,8 @@ inputs:
 outputs:
   dataset_cleaned:
     type: uri_file
-  pair_plot:
-    type: uri_file
+  pair_plot_folder:
+    type: uri_folder
 
 code: ./preprocess_src
 environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:1
@@ -28,6 +28,6 @@ command: >-
   --dataset ${{inputs.dataset}} 
   --plot_style ${{inputs.plot_style}}   
   --dataset_cleaned ${{outputs.dataset_cleaned}}
-  --pair_plot ${{outputs.pair_plot}}
+  --pair_plot_folder ${{outputs.pair_plot_folder}}
 
-# python --dataset input/water_potability_ds.csv --plot_style ticks --dataset_cleaned output/water-potability-clean.csv --pair_plot output/pair_plot.png
+# --dataset input/water_potability_ds.csv --plot_style ticks --dataset_cleaned output/water-potability-clean.csv --pair_plot_folder output

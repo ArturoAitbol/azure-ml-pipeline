@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import os
 
 def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
@@ -17,7 +18,7 @@ parser = argparse.ArgumentParser("train")
 parser.add_argument("--dataset", type=str, help="Path to dataset")
 parser.add_argument("--plot_style", type=str, help="Control the style of the pairplot")
 parser.add_argument("--dataset_cleaned", type=str, help="Dataset cleaned")
-parser.add_argument("--pair_plot", type=str, help="Name of the pair plot to save")
+parser.add_argument("--pair_plot_folder", type=str, help="Name of the pair plot to save")
 
 args = parser.parse_args()
 
@@ -26,7 +27,7 @@ lines = [
     f"dataset: {args.dataset}",
     f"style: {args.plot_style}",
     f"cleaned: {args.dataset_cleaned}",
-    f"pair_plot: {args.pair_plot}"
+    f"pair_plot_folder: {args.pair_plot_folder}"
 ]
 print("Parametros: ...")
 # imprimir parámetros:
@@ -59,4 +60,10 @@ sns.set(style=args.plot_style)
 sns_plot = sns.pairplot(data, diag_kind='kde')
 plt.suptitle("Pair Plot of Columns")
 # plt.show()
-sns_plot.savefig(args.pair_plot)
+
+# Create output directory
+output_dir = args.pair_plot_folder
+if not os.path.isdir(output_dir):
+    os.makedirs(output_dir)
+
+sns_plot.savefig(os.path.join(output_dir, "pair_plot.jpg"))

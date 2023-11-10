@@ -11,8 +11,8 @@ inputs:
     type: uri_file
 
 outputs:
-  logistic_model:
-    type: uri_file
+  model_folder:
+    type: uri_folder
 
 code: ./train_logistic_src
 environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:1
@@ -20,6 +20,6 @@ command: >-
   python train_logistic.py 
   --X_train ${{inputs.X_train}}
   --y_train ${{inputs.y_train}}
-  --logistic_model ${{outputs.logistic_model}}
+  --model_folder ${{outputs.model_folder}}
 
-# --X_train input/X_train.pkl --y_train input/y_train.pkl --logistic_model output/logistic_model.pkl
+# --X_train input/X_train.pkl --y_train input/y_train.pkl --model_folder output

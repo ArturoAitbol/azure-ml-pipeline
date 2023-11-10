@@ -2,28 +2,15 @@ import argparse
 import pandas as pd
 import pickle
 from sklearn.metrics import classification_report
+import os
 
 # obtener parámetros:
-parser = argparse.ArgumentParser("train")
-parser.add_argument("--model", type=str, help="Trained model .pkl file")
+parser = argparse.ArgumentParser("eval")
+parser.add_argument("--model_folder", type=str, help="Folder that stores the model .pkl file")
 parser.add_argument("--X_test", type=str, help="File of dependent variables for test")
 parser.add_argument("--y_test", type=str, help="File of independent variable for test")
-parser.add_argument("--report", type=str, help="Csv report showing the main classification metrics")
+parser.add_argument("--report_folder", type=str, help="Folder that contains a csv report showing the main classification metrics")
 args = parser.parse_args()
-
-# #Lineas solo para verificar los argumentos. No necesarias en un ambiente de producción
-# print("Hola desde split...")
-
-# lines = [
-#     f"X_train: {args.X_train}",
-#     f"Split ratio: {args.split_training_ratio}",
-#     f"Train file: {args.data_train}",
-#     f"Test file: {args.data_test}"
-# ]
-# print("Parametros: ...")
-# # imprimir parámetros:
-# for line in lines:
-#     print(line)
 
 # Read X_test dataframe
 X_test = pd.read_pickle(args.X_test)
@@ -32,8 +19,10 @@ X_test = pd.read_pickle(args.X_test)
 y_test = pd.read_pickle(args.y_test)
 
 # Load model
-filename = args.model
-model = pickle.load(open(filename, "rb"))
+folder = args.model_folder
+model_file = os.path.join(folder, "model.pkl")
+# model_file = args.model
+model = pickle.load(open(model_file, "rb"))
 
 # Make predictions on the test data
 y_pred = model.predict(X_test)
@@ -45,5 +34,12 @@ df_rep = pd.DataFrame(output).transpose()
 print(df_rep)
 
 # OUTPUT
-# Save report in csv file
-df_rep.to_csv(args.report)
+# Create output directory
+folder = args.report_folder
+if not os.path.isdir(folder):
+    os.makedirs(folder)
+
+output_directory = os.path.join(folder, "report.csv")
+
+# Write csv file in output folder
+df_rep.to_csv(output_directory)

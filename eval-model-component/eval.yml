@@ -1,29 +1,29 @@
 $schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
 
-name: train_logistic
-display_name: Train Logistic Regression model
+name: eval_model
+display_name: Score and evaluate model
 type: command
 
 inputs:
-  model:
-    type: uri_file
+  model_folder:
+    type: uri_folder
   X_test:
     type: uri_file
   y_test:
     type: uri_file
 
 outputs:
-  report:
-    type: uri_file
+  report_folder:
+    type: uri_folder
 
 code: ./eval_src
 environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:1
 command: >-
   python eval.py 
-  --model ${{inputs.model}}
+  --model_folder ${{inputs.model_folder}}
   --X_test ${{inputs.X_test}}
   --y_test ${{inputs.y_test}}
-  --report ${{outputs.report}}
+  --report_folder ${{outputs.report_folder}}
 
-# --model input/logistic_model.pkl --X_test input/X_test.pkl --y_test input/y_test.pkl --report output/logistic_report.csv
-# --model input/tree_model.pkl --X_test input/X_test.pkl --y_test input/y_test.pkl --report output/tree_report.csv
+# --model_folder input/logistic_model.pkl --X_test input/X_test.pkl --y_test input/y_test.pkl --report_folder output/logistic_report_folder.csv
+# --model_folder input --X_test input/X_test.pkl --y_test input/y_test.pkl --report_folder output
