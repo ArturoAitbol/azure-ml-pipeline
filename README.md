@@ -23,13 +23,10 @@ Entrena un Decision Tree utilizando los datos de training (X_train, y_train)
 ## eval-model-component
 Obtiene los valores predecidos por el modelo y los compara a los valores reales (X_test, y_test) para obtener las metricas del modelo
 
-## video.mpg
+## video.mp4
 Video explicativo del proyecto
 
 ## pipeline_output
-### artifacts
-Logs del pipeline
-### named-outputs
 Directorio que contiene las salidas del pipeline
 * pair_plot_output.- Pair plot en formato jpg
 * logistic_model_output.- Modelo Logistic Regression entrenado y guardado en un archivo .pkl
